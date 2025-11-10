@@ -1,0 +1,25 @@
+name: Bicep CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  validate-bicep:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Verify Bicep installation
+        run: az bicep version || az bicep install
+
+      - name: Validate Bicep file
+        working-directory: ./iac
+        run: az bicep build --file main.bicep
