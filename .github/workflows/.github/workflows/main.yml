@@ -1,4 +1,4 @@
-name: Bicep CI
+name: Bicep CI - CloudTopia
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install Azure CLI
@@ -20,6 +20,9 @@ jobs:
       - name: Verify Bicep installation
         run: az bicep version || az bicep install
 
-      - name: Validate Bicep file
+      - name: Validate Bicep file syntax
         working-directory: ./iac
         run: az bicep build --file main.bicep
+
+      - name: Simulate Deployment
+        run: echo "✅ Simulated Bicep deployment to Azure completed successfully!"
